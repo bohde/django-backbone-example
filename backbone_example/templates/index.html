@@ -10,13 +10,28 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
     <script src="http://cachedcommons.org/cache/underscore/1.1.0/javascripts/underscore-min.js"></script>
-    <script src="http://cachedcommons.org/cache/mustache/0.3.0/javascripts/mustache-min.js"></script>
     <script src="{{ MEDIA_URL }}js/ICanHaz.min.js"></script>
     <script src="{{ MEDIA_URL }}js/backbone-min.js"></script>
+    <script>
+      TWEET_API = "{% url api_dispatch_list resource_name="tweet" %}";
+    </script>
+    <script src="{{ MEDIA_URL }}js/app.js"></script>
+
+    {% verbatim %}
+    <script type="text/html" id="tweetTemplate">
+      <a class="username">{{ username }}</a>
+      <p class="message">
+        {{ message }}
+      </p>
+      <abbr class="timestamp">{{ timestamp }}</abbr>
+    </script>
+    {% endverbatim %}
   </head>
 
   <body>
     <div id="app">
+      <ul id="tweets">
+      </ul>
     </div>
   </body>
 </html>
