@@ -26,6 +26,10 @@ $(function(){
     window.App = Backbone.View.extend({
       el: $('#app'),
 
+      events: {
+          'click .tweet': 'createTweet'
+      },
+
       initialize: function(){
           _.bindAll(this, 'addOne', 'addAll', 'render');
           this.tweets = new Tweets();
@@ -40,9 +44,20 @@ $(function(){
       },
 
       addOne: function(tweet){
-          view = new TweetView({model:tweet});
+          var view = new TweetView({model:tweet});
           this.$('#tweets').append(view.render().el);
-      }                                        
+      },
+
+      createTweet: function(){
+          var tweet = this.$('#message').val();
+          if(tweet){
+              this.tweets.create({
+                                     message: tweet,
+                                     username: "Test User"
+                                 });
+              this.$('#message').val('');
+          }
+      }                                  
     });
       
     window.app = new App();
