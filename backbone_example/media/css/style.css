@@ -1,1 +1,63 @@
+html {
+  background-color: #eee;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
 
+body {
+  width: 720px;
+  margin: auto;
+  color: #777;
+}
+
+#input {
+  padding: 1em 2em;
+}
+
+#input strong {
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+#input #message {
+  margin-top: .5em;
+  width: 100%;
+  display: block;
+  border: #ccc 1px solid;
+}
+
+#input .tweet {
+  display: block;
+  font-size: 1.25em;
+  color: #333;
+  background-color: #eee;
+  padding: .25em;
+  margin: .25em 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1em 1.33em;
+}
+
+#tweets {
+  margin: 0 2em;
+  border-top: 1px solid #ccc;
+}
+
+.tweet {
+  font-size: 1.25em;
+  color: #333;
+  border: 1px solid #ccc;
+  border-top: 1px solid #fff;
+  padding: .5em;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.timestamp {
+  font-size: .75em;
+}
