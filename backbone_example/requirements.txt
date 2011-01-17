@@ -3,4 +3,4 @@ mimeparse>=0.1.3
 python-dateutil
 lxml
 PyYAML
--e git+git://joshbohde@github.com/joshbohde/django-tastypie.git#egg=django-tastypie
+https://github.com/toastdriven/django-tastypie/tarball/master
