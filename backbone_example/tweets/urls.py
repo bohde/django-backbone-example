@@ -1,13 +1,11 @@
 from django.conf.urls.defaults import *
-from tweets.api import TweetResource
-
-tweet_resource = TweetResource()
+from tweets.api import v1
 
 urlpatterns = patterns('',
     (r'^$',
      'django.views.generic.simple.direct_to_template',
      {'template':'index.html'}),
-    (r'^api/', include(tweet_resource.urls)),
+    (r'^api/', include(v1.urls)),
 )
 
 
