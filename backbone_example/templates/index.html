@@ -8,10 +8,11 @@
           href="http://yui.yahooapis.com/3.2.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css">
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
-    <script src="http://cachedcommons.org/cache/underscore/1.1.0/javascripts/underscore-min.js"></script>
-    <script src="{{ MEDIA_URL }}js/ICanHaz.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script src="{{ MEDIA_URL }}js/underscore-min.js"></script>
     <script src="{{ MEDIA_URL }}js/backbone-min.js"></script>
+    <script src="{{ MEDIA_URL }}js/backbone-tastypie.js"></script>
+    <script src="{{ MEDIA_URL }}js/ICanHaz.min.js"></script>
     <script>
       TWEET_API = "{% url api_dispatch_list api_name="v1" resource_name="tweet" %}";
     </script>
@@ -19,10 +20,7 @@
 
     {% verbatim %}
     <script type="text/html" id="tweetTemplate">
-      <a class="username">{{ username }}</a>
-      <p class="message">
-        {{ message }}
-      </p>
+      <p class="message">{{ message }}</p>
       <abbr class="timestamp">{{ timestamp }}</abbr>
     </script>
     {% endverbatim %}
