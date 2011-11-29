@@ -8,4 +8,4 @@ class TweetResource(ModelResource):
         queryset = Tweet.objects.all()
         authorization = Authorization()
         list_allowed_methods = ['get', 'post']
-        detail_allowed_methods = ['get', 'delete']
+        detail_allowed_methods = ['get']
