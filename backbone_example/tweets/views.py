@@ -1,4 +1,5 @@
 from django.views.generic.base import TemplateView
+from django.http import Http404
 
 from api import v1
 from .models import Tweet
@@ -16,7 +17,7 @@ class DetailView(TemplateView):
         try:
             tweet = tr.cached_obj_get(pk=pk)
         except Tweet.DoesNotExist:
-            return {}
+            raise Http404
 
         bundle = tr.full_dehydrate(tr.build_bundle(obj=tweet))
         data = bundle.data
