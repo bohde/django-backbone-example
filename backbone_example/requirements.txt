@@ -2,3 +2,4 @@ Django>=1.3.0
 mimeparse>=0.1.3
 python-dateutil==1
 django-tastypie==0.9.11
+pystache==0.3.1
