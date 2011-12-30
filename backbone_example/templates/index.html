@@ -21,7 +21,9 @@
     {% verbatim %}
     <script type="text/html" id="tweetTemplate">
       <p class="message">{{ message }}</p>
-      <abbr class="timestamp">{{ timestamp }}</abbr>
+      <abbr class="timestamp">
+        <a class="permalink" href="/{{id}}">{{ timestamp }}</a>
+      </abbr>
     </script>
     {% endverbatim %}
   </head>
