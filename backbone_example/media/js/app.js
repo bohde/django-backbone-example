@@ -66,8 +66,17 @@
 
 
     window.DetailApp = Backbone.View.extend({
+        events: {
+            'click .home': 'home'
+        },
+        
+        home: function(e){
+            this.trigger('home');
+            e.preventDefault();
+        },
+
         render: function(){
-            $(this.el).html(ich.tweetTemplate(this.model.toJSON()));
+            $(this.el).html(ich.detailApp(this.model.toJSON()));
             return this;
         }                                        
     });
@@ -190,7 +199,9 @@
                 }
             });
         });
+
         app.list.bind('navigate', app.router.navigate_to, app.router);
+        app.detail.bind('home', app.router.navigate_to, app.router);
 
         Backbone.history.start({pushState: true});
     });

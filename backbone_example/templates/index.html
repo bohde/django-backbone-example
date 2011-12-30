@@ -22,7 +22,7 @@
     <script type="text/html" id="tweetTemplate">
       <p class="message">{{ message }}</p>
       <abbr class="timestamp">
-        <a class="permalink" href="/{{id}}">{{ timestamp }}</a>
+        <a class="permalink" href="/{{id}}/">{{ timestamp }}</a>
       </abbr>
     </script>
 
@@ -34,6 +34,17 @@
       </div>
       <h2>Timeline</h2>
       <ul id="tweets">
+      </ul>
+    </script>
+
+    <script type="text/html" id="detailApp">
+      <h2>
+        <a class="home" href="/">Home</a>
+      </h2>
+      <ul id="tweets">
+        <li class="tweet"
+            {{>tweetTemplate}}
+        </li>
       </ul>
     </script>
     {% endverbatim %}
