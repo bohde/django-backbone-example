@@ -12,6 +12,6 @@ Preferably in a virtualenv, run the following commands:
     git clone https://joshbohde@github.com/joshbohde/django-backbone-example.git
     cd backbone_example
     pip install -r requirements.txt
-    ./manage.py syncdb --no-input
+    ./manage.py syncdb --noinput
     ./manage.py runserver
     
