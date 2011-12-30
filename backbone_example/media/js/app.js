@@ -153,11 +153,11 @@
     window.Router = Backbone.Router.extend({
         routes: {
             '': 'list',
-            ':id': 'detail'
+            ':id/': 'detail'
         },
 
         navigate_to: function(model){
-            var path = (model && model.get('id')) || '';
+            var path = (model && model.get('id') + '/') || '';
             this.navigate(path, true);
         },
 
