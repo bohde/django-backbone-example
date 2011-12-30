@@ -8,20 +8,20 @@
 
     <link rel="stylesheet" 
           href="http://yui.yahooapis.com/3.2.0/build/cssreset/reset-min.css">
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script src="{{ MEDIA_URL }}js/underscore-min.js"></script>
-    <script src="{{ MEDIA_URL }}js/backbone-min.js"></script>
-    <script src="{{ MEDIA_URL }}js/backbone-tastypie.js"></script>
-    <script src="{{ MEDIA_URL }}js/ICanHaz.min.js"></script>
+    <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
+    <script src="{{ STATIC_URL }}js/backbone-min.js"></script>
+    <script src="{{ STATIC_URL }}js/backbone-tastypie.js"></script>
+    <script src="{{ STATIC_URL }}js/ICanHaz.min.js"></script>
     <script>
       TWEET_API = "{% url api_dispatch_list api_name="v1" resource_name="tweet" %}";
       {% if data %}
       app = {loaded: true};
       {% endif %}
     </script>
-    <script src="{{ MEDIA_URL }}js/app.js"></script>
+    <script src="{{ STATIC_URL }}js/app.js"></script>
 
     <script type="text/html" id="tweetTemplate">
       {% straight_include "tweetTemplate.mustache" %}
