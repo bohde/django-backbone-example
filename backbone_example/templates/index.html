@@ -25,11 +25,8 @@
         <a class="permalink" href="/{{id}}">{{ timestamp }}</a>
       </abbr>
     </script>
-    {% endverbatim %}
-  </head>
 
-  <body>
-    <div id="app">
+    <script type="text/html" id="listApp">
       <div id="input">
         <strong>What's going on?</strong>
         <textarea id="message"></textarea>
@@ -38,6 +35,13 @@
       <h2>Timeline</h2>
       <ul id="tweets">
       </ul>
+    </script>
+    {% endverbatim %}
+  </head>
+
+  <body>
+    <div id="app">
     </div>
   </body>
+
 </html>

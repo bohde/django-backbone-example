@@ -1,9 +1,11 @@
 (function(){
-    window.Tweet = Backbone.Model.extend();
+    window.Tweet = Backbone.Model.extend({
+        urlRoot: TWEET_API
+    });
 
     window.Tweets = Backbone.Collection.extend({
-        model: Tweet, 
         urlRoot: TWEET_API,
+        model: Tweet, 
 
         maybeFetch: function(options){
             if(this._fetched){
@@ -14,27 +16,26 @@
                 successWrapper = function(success){
                     return function(){
                         self._fetched = true;
-                        success.apply(this, arguments);
+                        success && success.apply(this, arguments);
                     };
                 };
             options.success = successWrapper(options.success);
             this.fetch(options);
         },
 
-        getOrFetch: function(id, cb){
+        getOrFetch: function(id, options){
             var model = this.get(id);
 
             if(model){
-                cb(model);
+                options.success && options.success(model);
                 return;
             }
 
             model = new Tweet({
-                id: id
+                resoure_uri: Tweet.urlRoot + id
             });
-            model.fetch({
-                success: render
-            });
+
+            model.fetch(options);
         }
         
 
@@ -63,41 +64,18 @@
         }                                        
     });
 
-    window.ListApp = Backbone.View.extend({
-        el: '#app',
 
+    window.DetailApp = Backbone.View.extend({
+        render: function(){
+            $(this.el).html(ich.tweetTemplate(this.model.toJSON()));
+            return this;
+        }                                        
+    });
+
+    window.InputView = Backbone.View.extend({
         events: {
             'click .tweet': 'createTweet',
             'keypress #message': 'createOnEnter'
-        },
-
-        initialize: function(){
-            this.tweets = new Tweets();
-
-            _.bindAll(this, 'addOne', 'addAll');
-
-            this.tweets.bind('add', this.addOne);
-            this.tweets.bind('reset', this.addAll, this);
-            this.tweets.fetch();
-            this.views = [];
-        },
-
-        addAll: function(){
-            this.views = [];
-            this.tweets.each(this.addOne);
-        },
-
-        addOne: function(tweet){
-            var view = new TweetView({
-                model:tweet
-            });
-            this.$('#tweets').prepend(view.render().el);
-            this.views.push(view);
-            view.bind('all', this.rethrow, this);
-        },
-
-        rethrow: function(){
-            this.trigger.apply(this, arguments);
         },
 
         createOnEnter: function(e){
@@ -109,66 +87,111 @@
         },
 
         createTweet: function(){
-            var tweet = this.$('#message').val();
-            if(tweet){
-                this.tweets.create({
-                    message: tweet
+            var message = this.$('#message').val();
+            if(message){
+                this.collection.create({
+                    message: message
                 });
                 this.$('#message').val('');
             }
+        }
+
+    });
+
+    window.ListView = Backbone.View.extend({
+        initialize: function(){
+            _.bindAll(this, 'addOne', 'addAll');
+
+            this.collection.bind('add', this.addOne);
+            this.collection.bind('reset', this.addAll, this);
+            this.views = [];
+        },
+
+        addAll: function(){
+            this.views = [];
+            this.collection.each(this.addOne);
+        },
+
+        addOne: function(tweet){
+            var view = new TweetView({
+                model: tweet
+            });
+            $(this.el).prepend(view.render().el);
+            this.views.push(view);
+            view.bind('all', this.rethrow, this);
+        },
+
+        rethrow: function(){
+            this.trigger.apply(this, arguments);
+        }
+
+    });
+
+    window.ListApp = Backbone.View.extend({
+        el: "#app",
+
+        rethrow: function(){
+            this.trigger.apply(this, arguments);
         },
 
         render: function(){
-            
-        }
+            $(this.el).html(ich.listApp({}));
+            var list = new ListView({
+                collection: this.collection,
+                el: this.$('#tweets')
+            });
+            list.addAll();
+            list.bind('all', this.rethrow, this);
+            new InputView({
+                collection: this.collection,
+                el: this.$('#input')
+            });
+        }        
     });
+
     
-    window.DetailApp = TweetView.extend({
-        el: '#app'
-    });
-
-
     window.Router = Backbone.Router.extend({
         routes: {
-            '/:id': 'detail',
-            '/': 'list'
-        },
-
-        initialize: function(options){
-            this.collection = new Tweets();
-            this.fetched_collection = false;
-            this.list_view = new ListApp({
-                collection: this.collection
-            });
-            this.list_view.bind('navigate', this.navigate_to, this);
+            '': 'list',
+            ':id': 'detail'
         },
 
         navigate_to: function(model){
-            if(model){
-                this.navigate('/' + model.get('id'));
-            }else{
-                this.navigate('/');
-            }
+            var path = (model && model.get('id')) || '';
+            this.navigate(path, true);
         },
 
-        detail: function(id){
-            var render = function(model){
-                    var view = new DetailApp({
-                        model: model
-                    }).render();
-                };
-            this.collection.getOrFetch(id, render);
-        },
+        detail: function(){},
 
-        list: function(){
-            this.collection.maybeFetch({
-                success: this.list_view.addAll
-            });
-        }
+        list: function(){}
     });
 
     $(function(){
-        window.app = new Router();
+        window.app = {};
+        app.router = new Router();
+        app.tweets = new Tweets();
+        app.list = new ListApp({
+            el: $("#app"),
+            collection: app.tweets
+        });
+        app.detail = new DetailApp({
+            el: $("#app")
+        });
+        app.router.bind('route:list', function(){
+            app.tweets.maybeFetch({
+                success: _.bind(app.list.render, app.list)                
+            });
+        });
+        app.router.bind('route:detail', function(id){
+            app.tweets.getOrFetch(parseInt(id), {
+                success: function(model){
+                    app.detail.model = model;
+                    app.detail.render();                    
+                }
+            });
+        });
+        app.list.bind('navigate', app.router.navigate_to, app.router);
+
         Backbone.history.start({pushState: true});
     });
 })();
