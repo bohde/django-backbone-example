@@ -32,7 +32,7 @@
             }
 
             model = new Tweet({
-                resource_uri: this.urlRoot + id + '/'
+                resource_uri: id
             });
 
             model.fetch(options);
@@ -192,7 +192,7 @@
             });
         });
         app.router.bind('route:detail', function(id){
-            app.tweets.getOrFetch(parseInt(id), {
+            app.tweets.getOrFetch(app.tweets.urlRoot + id + '/', {
                 success: function(model){
                     app.detail.model = model;
                     app.detail.render();                    
