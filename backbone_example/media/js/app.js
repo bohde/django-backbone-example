@@ -32,7 +32,7 @@
             }
 
             model = new Tweet({
-                resoure_uri: Tweet.urlRoot + id
+                resource_uri: this.urlRoot + id + '/'
             });
 
             model.fetch(options);
