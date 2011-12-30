@@ -1,4 +1,6 @@
-{% load verbatim %}
+{% load mustache %}
+{% load straight_include %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -15,44 +17,30 @@
     <script src="{{ MEDIA_URL }}js/ICanHaz.min.js"></script>
     <script>
       TWEET_API = "{% url api_dispatch_list api_name="v1" resource_name="tweet" %}";
+      {% if data %}
+      app = {loaded: true};
+      {% endif %}
     </script>
     <script src="{{ MEDIA_URL }}js/app.js"></script>
 
-    {% verbatim %}
     <script type="text/html" id="tweetTemplate">
-      <p class="message">{{ message }}</p>
-      <abbr class="timestamp">
-        <a class="permalink" href="/{{id}}/">{{ timestamp }}</a>
-      </abbr>
+      {% straight_include "tweetTemplate.mustache" %}
     </script>
 
     <script type="text/html" id="listApp">
-      <div id="input">
-        <strong>What's going on?</strong>
-        <textarea id="message"></textarea>
-        <button class="tweet">Tweet</button>
-      </div>
-      <h2>Timeline</h2>
-      <ul id="tweets">
-      </ul>
+      {% straight_include "listApp.mustache" %}
     </script>
 
     <script type="text/html" id="detailApp">
-      <h2>
-        <a class="home" href="/">Home</a>
-      </h2>
-      <ul id="tweets">
-        <li class="tweet"
-            {{>tweetTemplate}}
-        </li>
-      </ul>
+      {% straight_include "detailApp.mustache" %}
     </script>
-    {% endverbatim %}
   </head>
 
   <body>
     <div id="app">
+      {% if data %}
+      {% mustache "detailApp" data %}
+      {% endif %}
     </div>
   </body>
-
 </html>

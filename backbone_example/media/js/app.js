@@ -176,7 +176,7 @@
     });
 
     $(function(){
-        window.app = {};
+        window.app = window.app || {};
         app.router = new Router();
         app.tweets = new Tweets();
         app.list = new ListApp({
@@ -202,7 +202,9 @@
 
         app.list.bind('navigate', app.router.navigate_to, app.router);
         app.detail.bind('home', app.router.navigate_to, app.router);
-
-        Backbone.history.start({pushState: true});
+        Backbone.history.start({
+            pushState: true, 
+            silent: app.loaded
+        });
     });
 })();
