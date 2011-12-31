@@ -27,7 +27,7 @@ def do_mustache(parser, token):
     
     Example::
     
-    {% straight_include "foo/some_include" %}
+    {% mustache "foo/bar" data %}
     
     """
     bits = token.split_contents()
