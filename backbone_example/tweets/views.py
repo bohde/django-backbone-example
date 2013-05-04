@@ -14,12 +14,14 @@ class DetailView(TemplateView):
     def get_detail(self, pk):
         tr = v1.canonical_resource_for('tweet')
 
+        bundle = tr.build_bundle(request=self.request)
+
         try:
-            tweet = tr.cached_obj_get(pk=pk)
+            tweet = tr.cached_obj_get(bundle=bundle, pk=pk)
         except Tweet.DoesNotExist:
             raise Http404
 
-        bundle = tr.full_dehydrate(tr.build_bundle(obj=tweet))
+        bundle = tr.full_dehydrate(bundle)
         data = bundle.data
         return data
 
